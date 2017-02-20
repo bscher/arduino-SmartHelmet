@@ -2,13 +2,17 @@
 #include "CommClient.h"
 #include "AltSoftSerial.h"
 
-
-AltSoftSerial *comSerial;
+AltSoftSerial *comSerial = nullptr;
+bool isInitiated = false;
 
 void CommClient::init()
 {
-	comSerial = new AltSoftSerial(System::Pins::COMM_RX, System::Pins::COMM_TX);
-	comSerial->begin(COMM_SERIAL_BAUD);
+	if (!isInitiated)
+	{
+		comSerial = new AltSoftSerial(Pins::COMM_RX, Pins::COMM_TX);
+		comSerial->begin(COMM_SERIAL_BAUD);
+		isInitiated = true;
+	}
 }
 
 void CommClient::send(const char * str)

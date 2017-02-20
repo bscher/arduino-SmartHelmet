@@ -13,19 +13,14 @@ void setup(void)
 {
 	System::init(SERIAL_LOCAL_RATE);
 	System::toggleStatusLED(true);
-
 	delay(250);
 
 	debugPrint(F("Starting Bluetooth..."));
 	CommClient::init();
-	debugPrintln(F("Done!"));
-
 	delay(250);
 
 	debugPrint(F("Starting Sensors..."));
-	Sensors::init();
 	debugPrintln(F("Done!"));
-
 	delay(250);
 
 	for (int i = 0; i < 10; i++) {

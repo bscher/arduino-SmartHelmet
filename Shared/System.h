@@ -22,9 +22,6 @@ namespace System
 	namespace Pins
 	{
 		extern const uint8_t LED_STATUS;
-
-		extern const uint8_t COMM_RX;
-		extern const uint8_t COMM_TX;
 	};
 };
 

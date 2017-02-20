@@ -5,6 +5,8 @@ void System::init(int localSerialRate)
 	do delay(250);
 	while (!Serial);
 	Serial.begin(localSerialRate);
+
+	pinMode(Pins::LED_STATUS, OUTPUT);
 }
 
 void System::throwFatalError(const char* err)

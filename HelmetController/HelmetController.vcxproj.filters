@@ -5,19 +5,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Shared Source">
+    <Filter Include="Shared">
+      <UniqueIdentifier>{1e69f8c4-4a51-42e8-8f9c-7af5edf288d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\Source">
       <UniqueIdentifier>{ca487a32-7a9d-4cd0-931e-586157b70451}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shared Header">
+    <Filter Include="Shared\Header">
       <UniqueIdentifier>{19db2f6a-1e2b-4caf-800c-ad92146151c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Local Header">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Local">
+      <UniqueIdentifier>{ca52922e-310c-4c17-b851-da4a11c43d37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Local Source">
+    <Filter Include="Local\Source">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Local\Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,36 +31,36 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.HelmetController.vsarduino.h">
-      <Filter>Local Header</Filter>
+      <Filter>Local\Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Shared\System.h">
-      <Filter>Shared Header</Filter>
+      <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Shared\CommClient.h">
-      <Filter>Shared Header</Filter>
+      <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="..\Shared\AltSoftSerial.h">
-      <Filter>Shared Header</Filter>
+      <Filter>Shared\Header</Filter>
     </ClInclude>
     <ClInclude Include="Display.h">
-      <Filter>Local Header</Filter>
+      <Filter>Local\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pins_Helmet.cpp">
-      <Filter>Local Source</Filter>
+      <Filter>Local\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Shared\System.cpp">
-      <Filter>Shared Source</Filter>
+      <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Shared\CommClient.cpp">
-      <Filter>Shared Source</Filter>
+      <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Shared\AltSoftSerial.cpp">
-      <Filter>Shared Source</Filter>
+      <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="Display.cpp">
-      <Filter>Local Source</Filter>
+      <Filter>Local\Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

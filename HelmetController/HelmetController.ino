@@ -12,25 +12,20 @@ bool ___init;
 
 uint32_t packageNumber = 1;
 unsigned long millisLast = 0;
-uint8_t buffer[BUFFER_LEN + 1];
+char buffer[BUFFER_LEN + 1];
 
 void setup(void)
 {
 	System::init(SERIAL_LOCAL_RATE);
 	System::toggleStatusLED(true);
-
 	delay(250);
 
 	debugPrint(F("Starting Bluetooth..."));
 	CommClient::init();
-	debugPrintln(F("Done!"));
-
 	delay(250);
 
 	debugPrint(F("Starting Display..."));
 	Display::init();
-	debugPrintln(F("Done!"));
-
 	delay(250);
 
 	for (int i = 0; i < 10; i++) {
