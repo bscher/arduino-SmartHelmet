@@ -1,12 +1,15 @@
 #include "System.h"
 
-void System::init(int localSerialRate)
+pin_t pin_statusLED;
+
+void System::init(int localSerialRate, pin_t statusLEDPin)
 {
 	do delay(250);
 	while (!Serial);
 	Serial.begin(localSerialRate);
 
-	pinMode(Pins::LED_STATUS, OUTPUT);
+	pin_statusLED = statusLEDPin;
+	pinMode(pin_statusLED, OUTPUT);
 }
 
 void System::throwFatalError(const char* err)
@@ -14,14 +17,14 @@ void System::throwFatalError(const char* err)
 	while (1) {
 		Serial.println(err);
 
-		digitalWrite(Pins::LED_STATUS, HIGH);
+		digitalWrite(pin_statusLED, HIGH);
 		delay(500);
-		digitalWrite(Pins::LED_STATUS, LOW);
+		digitalWrite(pin_statusLED, LOW);
 		delay(500);
 	}
 }
 
 void System::toggleStatusLED(bool toggle)
 {
-	digitalWrite(Pins::LED_STATUS, toggle ? HIGH : LOW);
+	digitalWrite(pin_statusLED, toggle ? HIGH : LOW);
 }

@@ -1,18 +1,20 @@
 
 #include "CommClient.h"
-#include "AltSoftSerial.h"
 
-AltSoftSerial *comSerial = nullptr;
-bool isInitiated = false;
+SoftwareSerial *comSerial = nullptr;
 
-void CommClient::init()
+void CommClient::init(pin_t commRXPin, pin_t commTXPin)
 {
-	if (!isInitiated)
-	{
-		comSerial = new AltSoftSerial(Pins::COMM_RX, Pins::COMM_TX);
-		comSerial->begin(COMM_SERIAL_BAUD);
-		isInitiated = true;
-	}
+	comSerial = //new AltSoftSerial(
+		new SoftwareSerial(
+			commRXPin, commTXPin);
+	comSerial->begin(COMM_SERIAL_BAUD);
+}
+
+void CommClient::sendSignalData(SignalData data)
+{
+	const char out[] = { data.Serialize() };
+	send(out, 1);
 }
 
 void CommClient::send(const char * str)
@@ -29,11 +31,23 @@ void CommClient::send(const char * buffer, unsigned int len)
 	comSerial->flush();
 }
 
+bool CommClient::tryReceiveSignalData(SignalData &data)
+{
+	char buff[1];
+	if (receive(buff, 1)) {
+		data = SignalData::Deserialize(buff[0]);
+		return true;
+	}
+	else
+		return false;
+}
+
 int CommClient::receive(char * buffer, unsigned int len)
 {
 	int i = 0;
 	while (comSerial->available() && i < len) {
-		buffer[i++] = comSerial->read();
+		int in = comSerial->read();
+		buffer[i++] = in;
 	}
 	return i;
 }

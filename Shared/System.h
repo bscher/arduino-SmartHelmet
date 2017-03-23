@@ -8,21 +8,18 @@
 #endif
 
 #define S(x)	String(x)
+#define pin_t	uint8_t
+#define byte_t  char
 
 #define debugPrint(x)		Serial.print(x)
 #define debugPrintln(x)		Serial.println(x)
 
 namespace System
 {
-	void init(int localSerialRate);
+	void init(int localSerialRate, pin_t statusLEDPin);
 	void throwFatalError(const char*);
 
 	void toggleStatusLED(bool toggle);
-	
-	namespace Pins
-	{
-		extern const uint8_t LED_STATUS;
-	};
 };
 
 #endif

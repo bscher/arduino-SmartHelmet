@@ -45,11 +45,14 @@
     <ClInclude Include="Display.h">
       <Filter>Local\Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\Shared\SoftwareWire.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\SignalData.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Pins_Helmet.cpp">
-      <Filter>Local\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Shared\System.cpp">
       <Filter>Shared\Source</Filter>
     </ClCompile>
@@ -61,6 +64,12 @@
     </ClCompile>
     <ClCompile Include="Display.cpp">
       <Filter>Local\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\SoftwareWire.cpp">
+      <Filter>Shared\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\SignalData.cpp">
+      <Filter>Shared\Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

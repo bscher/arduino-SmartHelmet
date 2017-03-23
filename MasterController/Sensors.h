@@ -2,12 +2,13 @@
 #define _SENSORS_H_
 
 #include "System.h"
+#include "SignalData.h"
 
 namespace Sensors
 {
-	void init(void);
+	void init(pin_t signalLeft, pin_t sensorLeftA, pin_t sensorLeftB, pin_t sensorLeftC);
 
-	int getReading(void);
+	void getReadings(SignalData &left, SignalData &right);
 };
 
 #endif

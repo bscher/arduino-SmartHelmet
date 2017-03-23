@@ -45,11 +45,11 @@
     <ClInclude Include="Sensors.h">
       <Filter>Local\Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\Shared\SignalData.h">
+      <Filter>Shared\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Pins_Master.cpp">
-      <Filter>Local\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Shared\System.cpp">
       <Filter>Shared\Source</Filter>
     </ClCompile>
@@ -61,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="Sensors.cpp">
       <Filter>Local\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\SignalData.cpp">
+      <Filter>Shared\Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

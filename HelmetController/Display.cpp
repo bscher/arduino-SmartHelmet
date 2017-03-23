@@ -1,24 +1,52 @@
 #include "Display.h"
+#include "U8glib.h"
 
-#include <U8glib.h>
-
-U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE | U8G_I2C_OPT_DEV_0);  // I2C / TWI 
+U8GLIB_SSD1306_128X64 scr(U8G_I2C_OPT_NONE | U8G_I2C_OPT_DEV_0);  // I2C / TWI
 
 void Display::init(void)
 {
-	u8g.setScale2x2();
-	u8g.setColorIndex(1);
-	u8g.setFont(u8g_font_unifont);
+	scr.setScale2x2();
+	scr.setColorIndex(1);
+	//scr.setFont(u8g_font_unifont);
+	scr.setFont(u8g_font_ncenB14);
 }
 
-void Display::draw(int magnitude)
-{
-	u8g.firstPage();
+void rightArrow(void) {
+	scr.drawHLine(10, 7, 40);
+	scr.drawHLine(10, 8, 40);
+	scr.drawHLine(10, 9, 40);
+	//scr.drawTriangle(117, 8, 100, 0, 100, 16);
+	scr.drawTriangle(59, 8, 50, 0, 50, 16);
+}
+
+
+void Display::drawNoSignal(void) {
+
+	scr.firstPage();
 	do {
-		u8g.setPrintPos(0, 10);
-		// call procedure from base class, http://arduino.cc/en/Serial/Print
-		u8g.print(magnitude);
-		u8g.setPrintPos(0, 24);
-		u8g.print("inches");
-	} while(u8g.nextPage());
+		scr.drawStr(5, 20, "Zzz...");
+	} while (scr.nextPage());
+}
+
+void Display::draw(SignalData d)
+{
+	scr.firstPage();
+	do {
+		if (d.refDirection == SignalData::RIGHT) {
+
+			char dangerStr[10] = { 0 };
+			for (int i = 0; i < d.dangerMagnitude; i++)
+				strcat(dangerStr, "*");
+			scr.drawStr(10, 40, dangerStr);
+
+			if (d.isTurnSignalOn) {
+				rightArrow();
+			}
+			else {
+
+			}
+		}
+		else
+			;//TODO
+	} while (scr.nextPage());
 }
