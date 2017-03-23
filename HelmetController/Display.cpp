@@ -7,7 +7,8 @@ void Display::init(void)
 	//scr.setScale2x2();
 	scr.setColorIndex(1);
 	//scr.setFont(u8g_font_unifont);
-	scr.setFont(u8g_font_ncenB24);
+	//scr.setFont(u8g_font_ncenB24);
+	scr.setFont(u8g_font_fur20);
 }
 
 void rightArrow(void) {
@@ -22,7 +23,7 @@ void Display::drawNoSignal(void) {
 
 	scr.firstPage();
 	do {
-		scr.drawStr(5, 20, "Zzz...");
+		scr.drawStr(5, 20, F("Zzz..."));
 	} while (scr.nextPage());
 }
 
@@ -40,10 +41,10 @@ void Display::draw(SignalData d)
 			if (d.isTurnSignalOn) {
 				rightArrow();
 			}
-			if (d.dangerMagnitude >= 5 && d.isTurnSignalOn) {
-				scr.setFont(u8g_font_fur20);
-				scr.drawStr(8, 44, "DANGER");
-				scr.setFont(u8g_font_ncenB24);
+			if (d.dangerMagnitude >= 4 && d.isTurnSignalOn) {
+				//scr.setFont(u8g_font_fur20);
+				scr.drawStr(8, 44, F("DANGER"));
+				//scr.setFont(u8g_font_ncenB24);
 			}
 		} while (scr.nextPage());
 	}
