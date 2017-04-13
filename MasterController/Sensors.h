@@ -6,7 +6,13 @@
 
 namespace Sensors
 {
-	void init(pin_t signalLeft, pin_t sensorLeftA, pin_t sensorLeftB, pin_t sensorLeftC);
+	void init(
+		pin_t pinSignalLeft,
+		pin_t pinSignalRight,
+		pin_t pinSensorRead,
+		pin_t pinSensorSelect_A,
+		pin_t pinSensorSelect_B,
+		pin_t pinSensorSelect_C);
 
 	void getReadings(SignalData &left, SignalData &right);
 };

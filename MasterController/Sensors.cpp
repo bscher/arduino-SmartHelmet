@@ -1,86 +1,78 @@
 #include "Sensors.h"
 
 #define VALUE_BUFFER_LEN	10
+#define SELECT_DELAY		1
+#define DANGER_READ_TO_MAG(n)	(5 - map((n < 50) ? n : 50, 10, 50, 0, 5))
 
+pin_t pin_signalLeft;
 pin_t pin_signalRight;
-pin_t pin_sensorRightA;
-pin_t pin_sensorRightB;
-pin_t pin_sensorRightC;
+pin_t pin_sensorRead;
+pin_t pin_sensorSelect_A;
+pin_t pin_sensorSelect_B;
+pin_t pin_sensorSelect_C;
 
-int sensorLeftMedian = 0;
-
-void Sensors::init(pin_t signalRight, pin_t sensorRightA, pin_t sensorRightB, pin_t sensorRightC)
+void Sensors::init(
+	pin_t pinSignalLeft,
+	pin_t pinSignalRight,
+	pin_t pinSensorRead,
+	pin_t pinSensorSelect_A,
+	pin_t pinSensorSelect_B,
+	pin_t pinSensorSelect_C)
 {
-	pin_signalRight = signalRight;
-	pin_sensorRightA = sensorRightA;
-	pin_sensorRightB = sensorRightB;
-	pin_sensorRightC = sensorRightC;
+	pin_signalLeft = pinSignalLeft;
+	pin_signalRight = pinSignalRight;
+	pin_sensorRead = pinSensorRead;
+	pin_sensorSelect_A = pinSensorSelect_A;
+	pin_sensorSelect_B = pinSensorSelect_B;
+	pin_sensorSelect_C = pinSensorSelect_C;
+
+	pinMode(pin_sensorSelect_A, OUTPUT);
+	pinMode(pin_sensorSelect_B, OUTPUT);
+	pinMode(pin_sensorSelect_C, OUTPUT);
 }
 
-void getReadingA(void) {
-	int read[VALUE_BUFFER_LEN];
+void setSelect(int n) {
+	digitalWrite(pin_sensorSelect_A, ((n >> 0) & 0x1) ? HIGH : LOW);
+	digitalWrite(pin_sensorSelect_B, ((n >> 1) & 0x1) ? HIGH : LOW);
+	digitalWrite(pin_sensorSelect_C, ((n >> 2) & 0x1) ? HIGH : LOW);
+	delay(SELECT_DELAY);
+}
 
-	//Get sensor vals
-	for (int i = 0; i < VALUE_BUFFER_LEN; i++) {
-		read[i] = analogRead(pin_sensorRightA);
-		delay(3);
-	}
+int getAvgRead(int a, int b) {
+	int read0, read1;
 
-	//Sort
-	int min, minIndex;
-	for (int i = 0; i < VALUE_BUFFER_LEN - 1; i++) {
-		min = read[i];
-		minIndex = i;
-		for (int j = i; j < VALUE_BUFFER_LEN; j++) {
-			if (read[j] < min) {
-				min = read[j];
-				minIndex = j;
-			}
-		}
-		int temp = read[i];
-		read[i] = read[minIndex];
-		read[minIndex] = temp;
-	}
+	setSelect(a);
+	read0 = analogRead(pin_sensorRead);
+	debugPrint(a);
+	debugPrint(": ");
+	debugPrintln(read0);
 
-	//Set median
-	sensorLeftMedian = read[VALUE_BUFFER_LEN / 2];
-	debugPrintln(sensorLeftMedian);
+	setSelect(b);
+	read1 = analogRead(pin_sensorRead);
+	debugPrint(b);
+	debugPrint(": ");
+	debugPrintln(read1);
+
+	return min(read0, read1);
 }
 
 void Sensors::getReadings(SignalData & left, SignalData & right)
 {
-	getReadingA();
-
-	right = SignalData();
-	right.refDirection = SignalData::RIGHT;
-	right.isTurnSignalOn = digitalRead(pin_signalRight);
-	debugPrint("Button: ");
-	debugPrintln(right.isTurnSignalOn);
-	right.dangerMagnitude =  5 - map((sensorLeftMedian < 100) ? sensorLeftMedian : 100, 0, 100, 0, 5);
-
+	int readLeft, readRight;
+	
+	//Left
+	readLeft = getAvgRead(0, 1);
 	left = SignalData();
 	left.refDirection = SignalData::LEFT;
 	left.isTurnSignalOn = false;
-	// TODO
-}
+	left.dangerMagnitude = DANGER_READ_TO_MAG(readLeft);
 
-/*
-int Sensors::getReadings(void)
-{
-	int reading = analogRead(pin_sensorA);
-	int scale = 5;
-	if (reading <= 60)
-		scale = 1;
-	else if (reading > 60 && reading <= 120)
-		scale = 2;
-	else if (reading > 120 && reading <= 180)
-		scale = 3;
-	else  if (reading > 180 && reading <= 240)
-		scale = 4;
-	else
-		scale = 5;
-
-	//return scale;
-	return analogRead(pin_sensorA);
+	//Right
+	readRight = getAvgRead(4, 5);
+	right = SignalData();
+	right.refDirection = SignalData::RIGHT;
+	right.isTurnSignalOn = false;
+	right.dangerMagnitude = DANGER_READ_TO_MAG(readRight); 
+	
+	debugPrintln();
 }
-*/

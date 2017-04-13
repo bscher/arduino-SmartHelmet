@@ -11,10 +11,13 @@ bool ___init;
 #define PIN_COMM_RX		8
 #define PIN_COMM_TX		9
 
-#define PIN_SIGNAL_RIGHT	12
-#define PIN_SENSOR_RIGHT_A	A4
-#define PIN_SENSOR_RIGHT_B	A5
-#define PIN_SENSOR_RIGHT_C	A6
+#define PIN_SIGNAL_LEFT			A0
+#define PIN_SIGNAL_RIGHT		A1
+
+#define PIN_SENSOR_READ			A2
+#define PIN_SENSOR_SELECT_A		10
+#define PIN_SENSOR_SELECT_B		11
+#define PIN_SENSOR_SELECT_C		12
 
 char buffer[BUFFER_LEN];
 int buffer_index = 0;
@@ -30,7 +33,9 @@ void setup(void)
 	delay(250);
 
 	debugPrint(F("Starting Sensors..."));
-	Sensors::init(PIN_SIGNAL_RIGHT, PIN_SENSOR_RIGHT_A, PIN_SENSOR_RIGHT_B, PIN_SENSOR_RIGHT_C);
+	Sensors::init(
+		PIN_SIGNAL_LEFT, PIN_SIGNAL_RIGHT, 
+		PIN_SENSOR_READ, PIN_SENSOR_SELECT_A, PIN_SENSOR_SELECT_B, PIN_SENSOR_SELECT_C);
 	delay(250);
 
 	debugPrintln(F("Done!"));
@@ -51,7 +56,11 @@ SignalData left, right;
 void loop(void)
 {
 	Sensors::getReadings(left, right);
+	CommClient::sendSignalData(left);
 	CommClient::sendSignalData(right);
+	debugPrint("Left:  ");
+	debugPrintln((int)left.dangerMagnitude);
+	debugPrint("Right: ");
 	debugPrintln((int)right.dangerMagnitude);
 
 	delay(250);

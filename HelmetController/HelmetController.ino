@@ -1,7 +1,3 @@
-// Addons
-#include <U8glib.h>
-// ~
-
 #include "System.h"
 #include "CommClient.h"
 #include "Display.h"
@@ -43,24 +39,30 @@ void setup(void)
 	debugPrintln(F("--- Start ---"));
 }
 
+bool received = false;
 int noSignalLoops = 0;
 SignalData data;
+
 void loop(void)
 {
-	if (CommClient::tryReceiveSignalData(data)) {
-		debugPrint("Received: ");
-		debugPrintln((int)data.dangerMagnitude);
+	do {
+		if (CommClient::tryReceiveSignalData(data)) {
+			received = true;
+			debugPrint("Received: ");
+			debugPrintln((int)data.dangerMagnitude);
 
-		Display::draw(data);
-		noSignalLoops = 0;
-	}
-	else {
-		if (noSignalLoops > NO_SIGNAL_LOOP_MIN) {
-			Display::drawNoSignal();
+			Display::draw(data);
+			noSignalLoops = 0;
 		}
-		else
-			noSignalLoops++;
-	}
+		else {
+			received = false;
+			if (noSignalLoops > NO_SIGNAL_LOOP_MIN) {
+				Display::drawNoSignal();
+			}
+			else
+				noSignalLoops++;
+		}
+	} while (received);
 
 	delay(100);
 }

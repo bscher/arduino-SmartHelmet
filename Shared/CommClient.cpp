@@ -2,6 +2,7 @@
 #include "CommClient.h"
 
 SoftwareSerial *comSerial = nullptr;
+//AltSoftSerial *comSerial = nullptr;
 
 void CommClient::init(pin_t commRXPin, pin_t commTXPin)
 {
