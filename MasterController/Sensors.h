@@ -3,6 +3,7 @@
 
 #include "System.h"
 #include "SignalData.h"
+#include <math.h>
 
 namespace Sensors
 {

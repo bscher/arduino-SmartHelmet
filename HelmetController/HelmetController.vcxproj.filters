@@ -51,6 +51,9 @@
     <ClInclude Include="..\Shared\SignalData.h">
       <Filter>Shared\Header</Filter>
     </ClInclude>
+    <ClInclude Include="DisplayScreens.h">
+      <Filter>Local\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Shared\System.cpp">

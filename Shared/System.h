@@ -14,6 +14,8 @@
 #define debugPrint(x)		Serial.print(x)
 #define debugPrintln(x)		Serial.println(x)
 
+#define min4(a,b,c,d)	(min(a,min(b,min(c,d))))
+
 namespace System
 {
 	void init(int localSerialRate, pin_t statusLEDPin);

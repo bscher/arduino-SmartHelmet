@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "DisplayScreens.h"
 
 #define OLED_RESET 5
 #define DEFAULT_COLOR 1
@@ -8,18 +9,57 @@
 Adafruit_SSD1306 scr1(OLED_RESET);
 Adafruit_SSD1306 scr2(OLED_RESET);
 
+void displayNoIO(Adafruit_SSD1306 &disp);
+
 void display_init(Adafruit_SSD1306 &disp)
 {
+	disp.clearDisplay();
 	disp.setTextColor(DEFAULT_COLOR);
 	disp.setFont();
+	disp.setCursor(0, 0);
+	disp.drawBitmap(0, 0, (const uint8_t*)&splashScreen, 128, 32, DEFAULT_COLOR);
+	disp.display();
+
+	delay(1500);
+
+	disp.clearDisplay();
+	disp.setCursor(0, 0);
+	disp.drawBitmap(0, 0, (const uint8_t*)warning_left, 25, 16, DEFAULT_COLOR);
+	/*disp.drawBitmap(26, 0, (const uint8_t*)&warning_left, 25, 16, DEFAULT_COLOR);
+	disp.drawBitmap(51, 0, (const uint8_t*)&warning_left, 25, 16, DEFAULT_COLOR);
+	disp.drawBitmap(76, 0, (const uint8_t*)&warning_left, 25, 16, DEFAULT_COLOR);
+	disp.drawBitmap(101, 0, (const uint8_t*)&warning_left, 25, 16, DEFAULT_COLOR);*/
+	disp.display();
+	delay(1500);
 }
 
 void setDisplay_sleep(Adafruit_SSD1306 &disp)
 {
 	disp.clearDisplay();
 	disp.setCursor(5, 20);
-	disp.print(F("Zzz..."));
+	displayNoIO(disp);
+}
+
+void displayNoIO(Adafruit_SSD1306 &disp)
+{
+	disp.clearDisplay();
+	disp.setCursor(0, 0);
+
+	disp.drawBitmap(0, 0, (const uint8_t*)&noSignal_1, 128, 32, DEFAULT_COLOR);
 	disp.display();
+	delay(150);
+
+	disp.drawBitmap(0, 0, (const uint8_t*)&noSignal_2, 128, 32, DEFAULT_COLOR);
+	disp.display();
+	delay(150);
+
+	disp.drawBitmap(0, 0, (const uint8_t*)&noSignal_3, 128, 32, DEFAULT_COLOR);
+	disp.display();
+	delay(150);
+
+	disp.drawBitmap(0, 0, (const uint8_t*)&noSignal_4, 128, 32, DEFAULT_COLOR);
+	disp.display();
+	delay(150);
 }
 
 void drawDisplay_rightArrow(Adafruit_SSD1306 &disp)

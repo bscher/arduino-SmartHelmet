@@ -63,5 +63,5 @@ void loop(void)
 	debugPrint("Right: ");
 	debugPrintln((int)right.dangerMagnitude);
 
-	delay(250);
+	delay(500);
 }
