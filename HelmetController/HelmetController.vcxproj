@@ -92,7 +92,7 @@
     <ClInclude Include="..\Shared\System.h" />
     <ClInclude Include="..\Shared\CommClient.h" />
     <ClInclude Include="Display.h" />
-    <ClInclude Include="DisplayScreens.h" />
+    <ClInclude Include="DisplayGraphics.h" />
     <ClInclude Include="__vm\.HelmetController.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +102,7 @@
     <ClCompile Include="..\Shared\SoftwareWire.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="..\Shared\System.cpp" />
+    <ClCompile Include="DisplayGraphics.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

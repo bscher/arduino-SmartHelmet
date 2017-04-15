@@ -57,7 +57,8 @@ void loop(void)
 		else {
 			received = false;
 			if (noSignalLoops > NO_SIGNAL_LOOP_MIN) {
-				Display::drawNoSignal();
+				//Display::drawNoSignal();
+				Display::testGraphics();
 			}
 			else
 				noSignalLoops++;

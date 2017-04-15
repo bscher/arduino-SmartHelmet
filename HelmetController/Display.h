@@ -8,6 +8,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <Fonts/FreeMonoBoldOblique12pt7b.h>
 
 namespace Display
 {
@@ -15,6 +16,8 @@ namespace Display
 
 	void drawNoSignal(void);
 	void draw(SignalData d);
+	void testGraphics(void);
+	void testArrows(Adafruit_SSD1306, int);
 };
 
 #endif

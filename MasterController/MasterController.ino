@@ -11,13 +11,13 @@ bool ___init;
 #define PIN_COMM_RX		8
 #define PIN_COMM_TX		9
 
-#define PIN_SIGNAL_LEFT			A0
+#define PIN_SIGNAL_LEFT			A2
 #define PIN_SIGNAL_RIGHT		A1
 
-#define PIN_SENSOR_READ			A2
-#define PIN_SENSOR_SELECT_A		10
-#define PIN_SENSOR_SELECT_B		11
-#define PIN_SENSOR_SELECT_C		12
+#define PIN_SENSOR_READ			A3
+#define PIN_SENSOR_SELECT_A		2
+#define PIN_SENSOR_SELECT_B		3
+#define PIN_SENSOR_SELECT_C		4
 
 char buffer[BUFFER_LEN];
 int buffer_index = 0;

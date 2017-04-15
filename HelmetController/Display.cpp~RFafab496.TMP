@@ -15,11 +15,12 @@ void display_init(Adafruit_SSD1306 &disp)
 {
 	disp.clearDisplay();
 	disp.setTextColor(DEFAULT_COLOR);
-	disp.setFont(&FreeMonoBoldOblique12pt7b);
-	//disp.setTextSize(1);
+	disp.setFont();
 	disp.setCursor(0, 0);
 	disp.drawBitmap(0, 0, (const uint8_t*)&splashScreen, 128, 32, DEFAULT_COLOR);
 	disp.display();
+
+	delay(1500);
 }
 
 void setDisplay_sleep(Adafruit_SSD1306 &disp)
@@ -59,48 +60,23 @@ void drawDisplay_rightArrow(Adafruit_SSD1306 &disp)
 	disp.drawTriangle(117, 8, 100, 0, 100, 16, DEFAULT_COLOR);
 }
 
-void setDisplay_leftDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool isTurnSignalOn)
-{
-	disp.clearDisplay();
-
-	char dangerStr[10] = { 0 };
-	for (int i = 0; i < dangerLevel; i++) {
-		if (i == dangerLevel - 1)
-			strcat(dangerStr, "<");
-		else
-			strcat(dangerStr, "< ");
-	}
-
-	disp.setCursor(0, 15);
-	disp.print(dangerStr);
-
-	if (dangerLevel >= 4 && isTurnSignalOn) {
-		disp.setCursor(18, 32);
-		disp.print(F("DANGER!"));
-	}
-
-	disp.display();
-}
-
 void setDisplay_rightDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool isTurnSignalOn)
 {
 	disp.clearDisplay();
 
 	char dangerStr[10] = { 0 };
 	for (int i = 0; i < dangerLevel; i++)
-	{
-		if (i == dangerLevel - 1)
-			strcat(dangerStr, ">");
-		else
-			strcat(dangerStr, "> ");
-	}
+		strcat(dangerStr, "*");
 
-	disp.setCursor(0, 15);
+	disp.setCursor( 73, 10);
 	disp.print(dangerStr);
 
+	if (isTurnSignalOn) {
+		drawDisplay_rightArrow(disp);
+	}
 	if (dangerLevel >= 4 && isTurnSignalOn) {
-		disp.setCursor(18, 32);
-		disp.print(F("DANGER!"));
+		disp.setCursor(8, 44);
+		disp.print(F("DANGER"));
 	}
 
 	disp.display();
@@ -113,8 +89,6 @@ void Display::init(void)
 
 	display_init(scr1);
 	display_init(scr2);
-
-	delay(1500);
 }
 
 void Display::drawNoSignal(void)
@@ -128,52 +102,5 @@ void Display::draw(SignalData d)
 	if (d.refDirection == SignalData::RIGHT)
 		setDisplay_rightDangerLevel(scr1, d.dangerMagnitude, d.isTurnSignalOn);
 	else
-		setDisplay_leftDangerLevel(scr2, d.dangerMagnitude, d.isTurnSignalOn);
-}
-
-void Display::testGraphics(void)
-{
-	testArrows(scr1, 0);
-	testArrows(scr2, 1);
-}
-
-void Display::testArrows(Adafruit_SSD1306 disp, int dir) //dir: 0-left, 1-right
-{
-	char str[10] = "";
-	char danger[10] = "DANGER!";
-
-	for (int i = 0; i < 6; i++)
-	{
-		if (i != 0)
-		{
-			if (dir == 0) // left
-			{
-				if (i == 5)
-					strcat(str, "<");
-				else
-					strcat(str, "< ");
-			}
-			else // right
-			{
-				if (i == 5)
-					strcat(str, ">");
-				else
-					strcat(str, "> ");
-			}
-		}
-
-		disp.clearDisplay();
-		disp.setCursor(0, 15);
-		disp.print(str);
-
-		if (i == 5)
-		{
-			disp.setCursor(18, 32);
-			disp.print(danger);
-		}
-		
-		disp.display();
-
-		delay(1000);
-	}
+		setDisplay_rightDangerLevel(scr2, d.dangerMagnitude, d.isTurnSignalOn);
 }

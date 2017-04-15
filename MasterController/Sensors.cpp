@@ -42,6 +42,7 @@ void Sensors::init(
 	pin_sensorSelect_B = pinSensorSelect_B;
 	pin_sensorSelect_C = pinSensorSelect_C;
 
+	pinMode(pin_sensorRead, INPUT);
 	pinMode(pin_sensorSelect_A, OUTPUT);
 	pinMode(pin_sensorSelect_B, OUTPUT);
 	pinMode(pin_sensorSelect_C, OUTPUT);
@@ -69,19 +70,13 @@ int getAvgRead(int a, int b, int c, int d) {
 	for (int i = 0; i < 4; i++)
 	{
 		setSelect(sensors[i]);
-		if (sensors[i] == LEFT_SENSOR_4)
-		{
-			readings[i] = 999;
-		}
-		else
-		{
-			readings[i] = analogRead(pin_sensorRead);
-		}
+		
+		readings[i] = analogRead(pin_sensorRead);
 
-		/*debugPrint("   ");
+		debugPrint("   ");
 		debugPrint(sensors[i]);
 		debugPrint(": ");
-		debugPrintln(readings[i]);*/
+		debugPrintln(readings[i]);
 
 		push(sensors[i], readings[i]);
 	}
