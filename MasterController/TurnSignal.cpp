@@ -24,11 +24,17 @@ void TurnSignal::init(pin_t pinSignalLeft, pin_t pinSignalRight)
 
 bool TurnSignal::isTurnSignalOn(SignalData::Direction dir)
 {
+	int reading;
+
+	reading = analogRead(pin_signalLeft);
+	debugPrint("  Left turn signal reading: ");
+	debugPrintln(reading);
+
 	if (dir == SignalData::LEFT)
-		return analogRead(pin_signalLeft) >= 150;
+		return analogRead(pin_signalLeft) >= 30;
 	
 	else if (dir == SignalData::RIGHT)
-		return analogRead(pin_signalRight) >= 150;
+		return analogRead(pin_signalRight) >= 30;
 	
 	else
 	{

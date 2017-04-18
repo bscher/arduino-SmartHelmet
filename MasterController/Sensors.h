@@ -14,6 +14,7 @@ namespace Sensors
 		pin_t pinSensorSelect_C);
 
 	void getReadings(SignalData &left, SignalData &right);
+	void pulseChain(void);
 };
 
 #endif

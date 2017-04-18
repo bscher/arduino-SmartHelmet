@@ -85,9 +85,9 @@ void setDisplay_leftDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool is
 	char dangerStr[10] = { 0 };
 	for (int i = 0; i < dangerLevel; i++) {
 		if (i == dangerLevel - 1)
-			strcat(dangerStr, "<");
+			strcat(dangerStr, ">");
 		else
-			strcat(dangerStr, "< ");
+			strcat(dangerStr, "> ");
 	}
 
 	disp.setCursor(0, 15);
@@ -109,9 +109,9 @@ void setDisplay_rightDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool i
 	for (int i = 0; i < dangerLevel; i++)
 	{
 		if (i == dangerLevel - 1)
-			strcat(dangerStr, ">");
+			strcat(dangerStr, "<");
 		else
-			strcat(dangerStr, "> ");
+			strcat(dangerStr, "< ");
 	}
 
 	disp.setCursor(0, 15);

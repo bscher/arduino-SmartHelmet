@@ -58,14 +58,14 @@ void loop(void)
 			Display::draw(data);
 			noSignalLoops = 0;
 
-			if (data.dangerMagnitude == 5)
+			if (data.dangerMagnitude >= 4 && data.isTurnSignalOn)
 				Speaker::play();
 		}
 		else {
 			received = false;
 			if (noSignalLoops > NO_SIGNAL_LOOP_MIN) {
 				Display::drawNoSignal();
-				Speaker::play();
+				//Speaker::play();
 				//Display::testGraphics();
 			}
 			else

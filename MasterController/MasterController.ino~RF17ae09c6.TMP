@@ -6,9 +6,7 @@
 bool ___init;
 
 #define SERIAL_LOCAL_RATE		9600
-#define SEND_DELAY				250
-#define PULSE_DELAY				400
-#define PRINT_DELAY				5000
+#define BUFFER_LEN				8
 
 #define PIN_LED_STATUS			13
 #define PIN_COMM_RX				8
@@ -22,6 +20,8 @@ bool ___init;
 #define PIN_SENSOR_SELECT_B		3
 #define PIN_SENSOR_SELECT_C		4
 
+char buffer[BUFFER_LEN];
+int buffer_index = 0;
 SignalData left, right;
 
 void setup(void)
@@ -56,32 +56,15 @@ void setup(void)
 	debugPrintln(F("--- Start ---"));
 }
 
-unsigned long lastSend = 0;
-unsigned long lastPulse = 0;
-unsigned long lastPrint = 0;
 void loop(void)
 {
 	Sensors::getReadings(left, right);
+	CommClient::sendSignalData(left);
+	CommClient::sendSignalData(right);
+	debugPrint("Left:  ");
+	debugPrintln((int)left.dangerMagnitude);
+	debugPrint("Right: ");
+	debugPrintln((int)right.dangerMagnitude);
 
-	if (lastSend + SEND_DELAY < millis())
-	{
-		CommClient::sendSignalData(left);
-		CommClient::sendSignalData(right);
-		lastSend = millis();
-	}
-	if (lastPulse + PULSE_DELAY < millis())
-	{
-		Sensors::pulseChain();
-		lastPulse = millis();
-	}
-	if (lastPrint + PRINT_DELAY < millis())
-	{
-		debugPrint("Left:  ");
-		debugPrintln((int)left.dangerMagnitude);
-		debugPrint("Right: ");
-		debugPrintln((int)right.dangerMagnitude);
-		lastPrint = millis();
-	}
-
-	delay(10);
+	delay(100);
 }
