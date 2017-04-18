@@ -3,13 +3,11 @@
 
 #include "System.h"
 #include "SignalData.h"
-#include <math.h>
+#include "TurnSignal.h"
 
 namespace Sensors
 {
 	void init(
-		pin_t pinSignalLeft,
-		pin_t pinSignalRight,
 		pin_t pinSensorRead,
 		pin_t pinSensorSelect_A,
 		pin_t pinSensorSelect_B,

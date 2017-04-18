@@ -48,6 +48,9 @@
     <ClInclude Include="..\Shared\SignalData.h">
       <Filter>Shared\Header</Filter>
     </ClInclude>
+    <ClInclude Include="TurnSignal.h">
+      <Filter>Local\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Shared\System.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="..\Shared\SignalData.cpp">
       <Filter>Shared\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnSignal.cpp">
+      <Filter>Local\Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

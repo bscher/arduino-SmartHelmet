@@ -1,8 +1,8 @@
 #include "Sensors.h"
 
-#define VALUE_sensor_buffer_LEN	10
-#define SELECT_DELAY		1
-#define DANGER_READ_TO_MAG(n)	(5 - map((n < 50) ? n : 50, 10, 50, 0, 5))
+//#define DANGER_READ_TO_MAG(n)	(5 - map((n < 255) ? n : 255, 6, 255, 0, 5))
+#define DANGER_READ_TO_MAG(n)	(5 - map((n < 60) ? n : 60, 10, 60, 0, 5))
+#define SELECT_DELAY	1
 
 #define RIGHT_SENSOR_1	0
 #define RIGHT_SENSOR_2	1
@@ -14,8 +14,9 @@
 #define LEFT_SENSOR_3	6
 #define LEFT_SENSOR_4	7
 
-pin_t pin_signalLeft;
-pin_t pin_signalRight;
+#define BUFFER_ROWS		8
+#define BUFFER_COLS		5
+
 pin_t pin_sensorRead;
 pin_t pin_sensorSelect_A;
 pin_t pin_sensorSelect_B;
@@ -28,15 +29,11 @@ int median(int idx);
 void push(int idx, int val);
 
 void Sensors::init(
-	pin_t pinSignalLeft,
-	pin_t pinSignalRight,
 	pin_t pinSensorRead,
 	pin_t pinSensorSelect_A,
 	pin_t pinSensorSelect_B,
 	pin_t pinSensorSelect_C)
 {
-	pin_signalLeft = pinSignalLeft;
-	pin_signalRight = pinSignalRight;
 	pin_sensorRead = pinSensorRead;
 	pin_sensorSelect_A = pinSensorSelect_A;
 	pin_sensorSelect_B = pinSensorSelect_B;
@@ -47,13 +44,9 @@ void Sensors::init(
 	pinMode(pin_sensorSelect_B, OUTPUT);
 	pinMode(pin_sensorSelect_C, OUTPUT);
 
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
+	for (int i = 0; i < BUFFER_ROWS; i++)
+		for (int j = 0; j < BUFFER_COLS; j++)
 			sensor_buffer[i][j] = 0;
-		}
-	}
 }
 
 void setSelect(int n) {
@@ -88,9 +81,7 @@ int getAvgRead(int a, int b, int c, int d) {
 void push(int idx, int val)
 {
 	for (unsigned int i = 4; i >= 1; i--)
-	{
 		sensor_buffer[idx][i] = sensor_buffer[idx][i - 1];
-	}
 	
 	sensor_buffer[idx][0] = val;
 }
@@ -98,17 +89,13 @@ void push(int idx, int val)
 void bubble(int *arr, int size)
 {
 	for (unsigned int i = 0; i < size - 1; i++)
-	{
 		for (unsigned int j = i + 1; j < size; j++)
-		{
 			if (arr[i] > arr[j])
 			{
 				int temp = arr[i];
 				arr[i] = arr[j];
 				arr[j] = temp;
 			}
-		}
-	}
 }
 
 int median(int idx)
@@ -135,7 +122,7 @@ void Sensors::getReadings(SignalData & left, SignalData & right)
 	debugPrintln(readLeft);
 	left = SignalData();
 	left.refDirection = SignalData::LEFT;
-	left.isTurnSignalOn = false;
+	left.isTurnSignalOn = TurnSignal::isTurnSignalOn(SignalData::LEFT);
 	left.dangerMagnitude = DANGER_READ_TO_MAG(readLeft);
 
 	//Right
@@ -147,7 +134,7 @@ void Sensors::getReadings(SignalData & left, SignalData & right)
 	debugPrintln(readRight);
 	right = SignalData();
 	right.refDirection = SignalData::RIGHT;
-	right.isTurnSignalOn = false;
+	right.isTurnSignalOn = TurnSignal::isTurnSignalOn(SignalData::RIGHT);
 	right.dangerMagnitude = DANGER_READ_TO_MAG(readRight); 
 	
 	debugPrintln("---------------------------");

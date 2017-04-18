@@ -1,6 +1,7 @@
 #include "System.h"
 #include "CommClient.h"
 #include "Display.h"
+#include "Speaker.h"
 bool ___init;
 
 #define PIN_LED_STATUS	13
@@ -36,6 +37,9 @@ void setup(void)
 		delay(50);
 	}
 
+	debugPrint(F("Starting Speaker..."));
+	Speaker::init();
+
 	debugPrintln(F("--- Start ---"));
 }
 
@@ -50,15 +54,19 @@ void loop(void)
 			received = true;
 			debugPrint("Received: ");
 			debugPrintln((int)data.dangerMagnitude);
-
+			
 			Display::draw(data);
 			noSignalLoops = 0;
+
+			if (data.dangerMagnitude == 5)
+				Speaker::play();
 		}
 		else {
 			received = false;
 			if (noSignalLoops > NO_SIGNAL_LOOP_MIN) {
-				//Display::drawNoSignal();
-				Display::testGraphics();
+				Display::drawNoSignal();
+				Speaker::play();
+				//Display::testGraphics();
 			}
 			else
 				noSignalLoops++;

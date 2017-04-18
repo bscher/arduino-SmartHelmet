@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HelmetController.ino" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.HelmetController.vsarduino.h">
@@ -54,6 +55,9 @@
     <ClInclude Include="DisplayGraphics.h">
       <Filter>Local\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Speaker.h">
+      <Filter>Local\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Shared\System.cpp">
@@ -75,6 +79,9 @@
       <Filter>Shared\Source</Filter>
     </ClCompile>
     <ClCompile Include="DisplayGraphics.cpp">
+      <Filter>Local\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Speaker.cpp">
       <Filter>Local\Source</Filter>
     </ClCompile>
   </ItemGroup>

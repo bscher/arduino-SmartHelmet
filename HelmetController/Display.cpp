@@ -9,7 +9,25 @@
 Adafruit_SSD1306 scr1(OLED_RESET);
 Adafruit_SSD1306 scr2(OLED_RESET);
 
+void Display::init(void);
+void display_init(Adafruit_SSD1306 &disp);
+void setDisplay_sleep(Adafruit_SSD1306 &disp);
 void displayNoIO(Adafruit_SSD1306 &disp);
+void setDisplay_leftDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool isTurnSignalOn);
+void setDisplay_rightDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool isTurnSignalOn);
+void Display::drawNoSignal(void);
+void Display::draw(SignalData d);
+
+void Display::init(void)
+{
+	scr1.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+	scr2.begin(SSD1306_SWITCHCAPVCC, 0x3D);
+
+	display_init(scr1);
+	display_init(scr2);
+
+	delay(1500);
+}
 
 void display_init(Adafruit_SSD1306 &disp)
 {
@@ -18,7 +36,8 @@ void display_init(Adafruit_SSD1306 &disp)
 	disp.setFont(&FreeMonoBoldOblique12pt7b);
 	//disp.setTextSize(1);
 	disp.setCursor(0, 0);
-	disp.drawBitmap(0, 0, (const uint8_t*)&splashScreen, 128, 32, DEFAULT_COLOR);
+	disp.setRotation(2);
+	disp.drawBitmap(0, 0, (const uint8_t*)&splashScreen, 128, 32, DEFAULT_COLOR);	
 	disp.display();
 }
 
@@ -106,17 +125,6 @@ void setDisplay_rightDangerLevel(Adafruit_SSD1306 &disp, int dangerLevel, bool i
 	disp.display();
 }
 
-void Display::init(void)
-{
-	scr1.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-	scr2.begin(SSD1306_SWITCHCAPVCC, 0x3D);
-
-	display_init(scr1);
-	display_init(scr2);
-
-	delay(1500);
-}
-
 void Display::drawNoSignal(void)
 {
 	setDisplay_sleep(scr1);
@@ -174,6 +182,6 @@ void Display::testArrows(Adafruit_SSD1306 disp, int dir) //dir: 0-left, 1-right
 		
 		disp.display();
 
-		delay(1000);
+		//delay(1000);
 	}
 }
